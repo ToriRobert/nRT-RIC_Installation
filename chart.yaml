@@ -1,0 +1,12 @@
+env:
+  open:
+    STORAGE: local
+    CONTEXT_PATH: /charts
+    DISABLE_API: false
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 8Gi
+  storageClass: nfs
+service:
+  type: NodePort
