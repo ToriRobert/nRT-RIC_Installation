@@ -338,7 +338,7 @@ EOF
 
   kubectl get pods --all-namespaces
 
-  kubectl apply -f "https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
+  kubectl apply -f "https://raw.githubusercontent.com/ToriRobert/nRT-RIC_Installation/master/kube-flannel.yml"
 
   wait_for_pods_running 8 kube-system
 
