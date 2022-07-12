@@ -2,7 +2,7 @@
 kind: Namespace
 apiVersion: v1
 metadata:
-  name: kube-system
+  name: kube-flannel
   labels:
     pod-security.kubernetes.io/enforce: privileged
 ---
@@ -53,7 +53,7 @@ metadata:
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: kube-system-cfg
+  name: kube-flannel-cfg
   namespace: kube-system
   labels:
     tier: node
@@ -90,7 +90,7 @@ data:
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: kube-system-ds
+  name: kube-flannel-ds
   namespace: kube-system
   labels:
     tier: node
@@ -140,15 +140,15 @@ spec:
         - cp
         args:
         - -f
-        - /etc/kube-system/cni-conf.json
+        - /etc/kube-flannel/cni-conf.json
         - /etc/cni/net.d/10-flannel.conflist
         volumeMounts:
         - name: cni
           mountPath: /etc/cni/net.d
         - name: flannel-cfg
-          mountPath: /etc/kube-system/
+          mountPath: /etc/kube-flannel/
       containers:
-      - name: kube-system
+      - name: kube-flannel
        #image: flannelcni/flannel:v0.18.1 for ppc64le and mips64le (dockerhub limitations may apply)
         image: rancher/mirrored-flannelcni-flannel:v0.18.1
         command:
@@ -182,7 +182,7 @@ spec:
         - name: run
           mountPath: /run/flannel
         - name: flannel-cfg
-          mountPath: /etc/kube-system/
+          mountPath: /etc/kube-flannel/
         - name: xtables-lock
           mountPath: /run/xtables.lock
       volumes:
@@ -197,7 +197,7 @@ spec:
           path: /etc/cni/net.d
       - name: flannel-cfg
         configMap:
-          name: kube-system-cfg
+          name: kube-flannel-cfg
       - name: xtables-lock
         hostPath:
           path: /run/xtables.lock
